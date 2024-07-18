@@ -40,6 +40,7 @@ export const Session = React.memo(
     const [showDevices, setShowDevices] = useState(false);
     const [showStats, setShowStats] = useState(false);
     const modalRef = useRef<HTMLDialogElement>(null);
+    //@ts-ignore
     const [talkState, setTalkState] = useState<"user" | "assistant" | "open">(
       "user" //"open" : "assistant"
     );

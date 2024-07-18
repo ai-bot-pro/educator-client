@@ -123,6 +123,7 @@ export default function App() {
     setState("connecting");
 
     try {
+      //@ts-ignore
       await daily.join({
         url: "https://cerebrium.daily.co/qGLBn6RherElyRv1ow4P",
         token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyIjoicUdMQm42UmhlckVseVJ2MW93NFAiLCJvIjp0cnVlLCJkIjoiZWRjMDVhYTUtYWE2My00NTU4LWEzNjktN2VmZmU2YTA2YWZiIiwiaWF0IjoxNzIxMTY1MDAwfQ.3urc55XYJjWxyMSWYOztddKiuLTjF3uVSXrfVj7ByyQ",

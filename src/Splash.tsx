@@ -1,5 +1,5 @@
 import React from "react";
-import { Book, Info, Rocket } from "lucide-react";
+import { Book, Rocket } from "lucide-react";
 
 import CerebriumLogo from "@/assets/logos/cerebrium.png";
 import DailyLogo from "@/assets/logos/daily.png";

@@ -1,6 +1,5 @@
 import React, { memo, useEffect, useState, useRef } from "react";
-import { useDaily, useActiveSpeakerId, useParticipantIds, useAppMessage } from "@daily-co/daily-react";
-import clsx from "clsx";
+import { useActiveSpeakerId, useParticipantIds, useAppMessage } from "@daily-co/daily-react";
 
 import Latency from "@/components/Latency";
 import Transcript from "@/components/Transcript";
@@ -15,11 +14,9 @@ export const Agent: React.FC<{
   onToggleMute: () => void; 
 }> = memo(
   ({ hasStarted = false, statsAggregator, onToggleMute }) => {
-    const daily = useDaily();
     const participantIds = useParticipantIds({ filter: "remote" });
     const activeSpeakerId = useActiveSpeakerId({ ignoreLocal: true });
     const [agentState, setAgentState] = useState<AgentState>("connecting");
-    const [isPlaying, setIsPlaying] = useState(true);
     const [player, setPlayer] = useState<any>(null);
     const iframeRef = useRef<HTMLIFrameElement>(null);
 
@@ -73,6 +70,7 @@ export const Agent: React.FC<{
 
       // Initialize YouTube Player
       (window as any).onYouTubeIframeAPIReady = () => {
+        //@ts-ignore
         const newPlayer = new (window as any).YT.Player(iframeRef.current, {
           events: {
             onReady: (event: any) => {
@@ -87,11 +85,6 @@ export const Agent: React.FC<{
         });
       };
     }, []);
-
-    const cx = clsx(
-      styles.agentWindow
-      // agentState === "connected" && styles.connected
-    );
 
     return (
       <div className={styles.agent}>

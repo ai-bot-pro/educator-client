@@ -1,4 +1,3 @@
-import Logo from "../logo";
 import CerebriumLogo from "@/assets/logos/cerebrium.svg";
 import ExpiryTimer from "../Session/ExpiryTimer";
 
