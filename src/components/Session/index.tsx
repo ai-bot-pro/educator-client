@@ -40,9 +40,9 @@ export const Session = React.memo(
     const [showDevices, setShowDevices] = useState(false);
     const [showStats, setShowStats] = useState(false);
     const modalRef = useRef<HTMLDialogElement>(null);
-    /*const [talkState, setTalkState] = useState<"user" | "assistant" | "open">(
-      openMic ? "open" : "assistant"
-    );*/
+    const [talkState, setTalkState] = useState<"user" | "assistant" | "open">(
+      "user" //"open" : "assistant"
+    );
     const [muted, setMuted] = useState(startAudioOff);
     const meetingState = useMeetingState();
 
@@ -122,9 +122,7 @@ export const Session = React.memo(
           });
           return;
         }
-
-        /*
-        Open mic handler (disabled for now)
+        //Open mic handler (disabled for now)
         if (!daily || !e.data?.cue) return;
 
         // Determine the UI state from the cue sent by the bot
@@ -135,7 +133,7 @@ export const Session = React.memo(
         } else {
           daily.setLocalAudio(false);
           setTalkState("assistant");
-        }*/
+        }
       },
     });
 
@@ -169,13 +167,16 @@ export const Session = React.memo(
             />,
             document.getElementById("tray")!
           )}
-
+        <p>When every you have a question about the video, simply unmute your mic and start speaking. Andrej will stop speaking
+           and will try answer your question</p>
+        <br/>
+        <p>When your question is answered, say: <b>"Thanks! You can continue with the lecture"</b> and he will continue</p>
         <div className="flex-1 flex flex-col items-center justify-center w-full">
           <Card
             fullWidthMobile={false}
-            className="w-full max-w-[320px] sm:max-w-[420px] mt-auto shadow-long"
+            className=" mt-auto shadow-long"
           >
-            <Agent hasStarted={hasStarted} statsAggregator={stats_aggregator} />
+            <Agent hasStarted={hasStarted} statsAggregator={stats_aggregator} onToggleMute={toggleMute}/>
           </Card>
 
           <UserMicBubble

@@ -8,8 +8,6 @@ export default defineConfig({
   assetsInclude: ["**/*.onnx"],
   server: {
     headers: {
-      "Cross-Origin-Embedder-Policy": "require-corp",
-      "Cross-Origin-Opener-Policy": "same-origin",
     },
   },
   resolve: {

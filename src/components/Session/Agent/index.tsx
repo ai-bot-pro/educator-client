@@ -1,12 +1,9 @@
-import React, { memo, useEffect, useState } from "react";
-import { useActiveSpeakerId, useParticipantIds } from "@daily-co/daily-react";
+import React, { memo, useEffect, useState, useRef } from "react";
+import { useDaily, useActiveSpeakerId, useParticipantIds, useAppMessage } from "@daily-co/daily-react";
 import clsx from "clsx";
-import { Loader2 } from "lucide-react";
 
 import Latency from "@/components/Latency";
 import Transcript from "@/components/Transcript";
-
-import Avatar from "./avatar";
 
 import styles from "./styles.module.css";
 
@@ -15,11 +12,17 @@ type AgentState = "connecting" | "loading" | "connected";
 export const Agent: React.FC<{
   hasStarted: boolean;
   statsAggregator: StatsAggregator;
+  onToggleMute: () => void; 
 }> = memo(
-  ({ hasStarted = false, statsAggregator }) => {
+  ({ hasStarted = false, statsAggregator, onToggleMute }) => {
+    const daily = useDaily();
     const participantIds = useParticipantIds({ filter: "remote" });
     const activeSpeakerId = useActiveSpeakerId({ ignoreLocal: true });
     const [agentState, setAgentState] = useState<AgentState>("connecting");
+    const [isPlaying, setIsPlaying] = useState(true);
+    const [player, setPlayer] = useState<any>(null);
+    const iframeRef = useRef<HTMLIFrameElement>(null);
+
 
     useEffect(() => {
       if (participantIds.length > 0) {
@@ -32,23 +35,78 @@ export const Agent: React.FC<{
     // Cleanup
     useEffect(() => () => setAgentState("connecting"), []);
 
+    useAppMessage({
+      onAppMessage: (e) => {
+        // Aggregate metrics from pipecat
+       console.log(e.data)
+
+      if (e.data.user_id == "" && e.data?.text) {
+        player?.pauseVideo();
+      }
+
+      if (e.data?.speech_final && e.data.user_id == "" && e.data?.text) {
+        const transcriptText = e.data.text.toLowerCase();
+        const targetPhrases = [
+          "you can continue with the lecture",
+          "continue with the lecture",
+          "you can continue with lecture",
+          "continue with lecture",
+        ]
+
+        // Simple fuzzy matching by checking if the target phrase is included in the transcript text
+        const matchFound = targetPhrases.some(phrase => transcriptText.includes(phrase));
+          if (matchFound) {
+          console.log("Fuzzy match found for the phrase: 'You can continue with the lecture'");
+          player?.playVideo();
+          onToggleMute()
+        }
+      }
+      }
+    });
+
+    useEffect(() => {
+      // Load YouTube IFrame API
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName("script")[0];
+      firstScriptTag?.parentNode?.insertBefore(tag, firstScriptTag);
+
+      // Initialize YouTube Player
+      (window as any).onYouTubeIframeAPIReady = () => {
+        const newPlayer = new (window as any).YT.Player(iframeRef.current, {
+          events: {
+            onReady: (event: any) => {
+              setPlayer(event.target);
+              event.target.playVideo();
+              setTimeout(() => {
+                console.log("Slept for 1 second");
+                event.target.pauseVideo();
+              }, 2000);
+            },
+          },
+        });
+      };
+    }, []);
+
     const cx = clsx(
-      styles.agentWindow,
-      agentState === "connected" && styles.connected
+      styles.agentWindow
+      // agentState === "connected" && styles.connected
     );
 
     return (
       <div className={styles.agent}>
-        <div className={cx}>
-          {agentState === "connecting" ? (
-            <span className={styles.loader}>
-              <Loader2 size={32} className="animate-spin" />
-            </span>
-          ) : (
-            <Avatar />
-          )}
+        <iframe
+          ref={iframeRef}
+          id="youtube-player"
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/l8pRSuU81PU?enablejsapi=1"
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          style={{ position: "relative", zIndex: 999 }}
+        ></iframe>
           <Transcript />
-        </div>
         <footer className={styles.agentFooter}>
           <Latency
             started={agentState === "connected" && hasStarted}

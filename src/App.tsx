@@ -14,7 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./components/ui/card";
-import { fetch_start_agent } from "./actions";
+// import { fetch_start_agent } from "./actions";
 
 type State =
   | "idle"
@@ -35,7 +35,7 @@ const status_text = {
 
 // Server URL (ensure trailing slash)
 let serverUrl = import.meta.env.VITE_SERVER_URL;
-let serverAuth = import.meta.env.VITE_SERVER_AUTH;
+// let serverAuth = import.meta.env.VITE_SERVER_AUTH;
 if (serverUrl && !serverUrl.endsWith("/")) serverUrl += "/";
 
 // Auto room creation (requires server URL)
@@ -64,7 +64,7 @@ export default function App() {
   const [roomError, setRoomError] = useState<boolean>(
     (roomQs && checkRoomUrl(roomQs)) || false
   );
-  const [capacityError, setCapacityError] = useState<string>(""); // New state for start error
+  const [capacityError] = useState<string>(""); // New state for start error
 
 
   function handleRoomUrl() {
@@ -77,60 +77,60 @@ export default function App() {
   }
 
   async function start() {
-    if (!daily || (!roomUrl && !autoRoomCreation)) return;
+    // if (!daily || (!roomUrl && !autoRoomCreation)) return;
 
-    let data;
+    // let data;
 
-    // Request agent to start, or join room directly
-    if (import.meta.env.VITE_SERVER_URL) {
-      // Request a new agent to join the room
-      setState("requesting_agent");
+    // // Request agent to start, or join room directly
+    // if (import.meta.env.VITE_SERVER_URL) {
+    //   // Request a new agent to join the room
+    //   setState("requesting_agent");
 
-      try {
-        data = await fetch_start_agent(`${serverUrl}create_room`, serverAuth);
-        if (data && !data.error) {
-          fetch(`${serverUrl}start_bot`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${serverAuth}`
-            },
-            body: JSON.stringify({
-              room_url: data.result.url,
-              token: data.result.token
-            })
-          }).catch((e) => {
-            console.error(`Failed to make request to ${serverUrl}/main: ${e}`);
-          });
-        } else  {
-          setCapacityError("We are currently at capacity for this demo. Please try again later.")
-          setState("configuring")
-          return
-          // setError(data.detail.message);
-          // setState("error");
-        }
-      } catch (e) {
-        console.log(e)
-        setCapacityError("We are currently at capacity for this demo. Please try again later.")
-        setState("configuring")
-        // setError(`Unable to connect to the bot server at '${serverUrl}'`);
-        // setState("error");
-        return;
-      }
-    }
+    //   try {
+    //     data = await fetch_start_agent(`${serverUrl}create_room`, serverAuth);
+    //     if (data && !data.error) {
+    //       fetch(`${serverUrl}start_bot`, {
+    //         method: "POST",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //           Authorization: `Bearer ${serverAuth}`
+    //         },
+    //         body: JSON.stringify({
+    //           room_url: data.result.url,
+    //           token: data.result.token
+    //         })
+    //       }).catch((e) => {
+    //         console.error(`Failed to make request to ${serverUrl}/main: ${e}`);
+    //       });
+    //     } else  {
+    //       setCapacityError("We are currently at capacity for this demo. Please try again later.")
+    //       setState("configuring")
+    //       return
+    //       // setError(data.detail.message);
+    //       // setState("error");
+    //     }
+    //   } catch (e) {
+    //     console.log(e)
+    //     setCapacityError("We are currently at capacity for this demo. Please try again later.")
+    //     setState("configuring")
+    //     // setError(`Unable to connect to the bot server at '${serverUrl}'`);
+    //     // setState("error");
+    //     return;
+    //   }
+    // }
 
     // Join the daily session, passing through the url and token
     setState("connecting");
 
     try {
       await daily.join({
-        url: data.result.url || roomUrl,
-        token: data.result.token || "",
+        url: "https://cerebrium.daily.co/qGLBn6RherElyRv1ow4P",
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyIjoicUdMQm42UmhlckVseVJ2MW93NFAiLCJvIjp0cnVlLCJkIjoiZWRjMDVhYTUtYWE2My00NTU4LWEzNjktN2VmZmU2YTA2YWZiIiwiaWF0IjoxNzIxMTY1MDAwfQ.3urc55XYJjWxyMSWYOztddKiuLTjF3uVSXrfVj7ByyQ",
         videoSource: false,
         startAudioOff: startAudioOff,
       });
     } catch (e) {
-      setError(`Unable to join room: '${data?.room_url || roomUrl}'`);
+      setError(`Unable to join room:`);
       setState("error");
       return;
     }
