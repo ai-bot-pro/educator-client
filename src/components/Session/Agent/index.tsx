@@ -76,11 +76,6 @@ export const Agent: React.FC<{
             onReady: (event: any) => {
               setPlayer(event.target);
               event.target.playVideo();
-              setTimeout(() => {
-                console.log("Slept for 1 second");
-                event.target.playVideo();
-                //event.target.pauseVideo();
-              }, 2000);
             },
           },
         });
