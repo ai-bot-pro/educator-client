@@ -2,8 +2,6 @@ import React, { memo, useEffect, useState, useRef } from "react";
 import { useActiveSpeakerId, useParticipantIds, useAppMessage } from "@daily-co/daily-react";
 
 import Latency from "@/components/Latency";
-import Transcript from "@/components/Transcript";
-
 import styles from "./styles.module.css";
 
 type AgentState = "connecting" | "loading" | "connected";
