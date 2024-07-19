@@ -48,6 +48,8 @@ export const Agent: React.FC<{
           "continue with the lecture",
           "you can continue with lecture",
           "continue with lecture",
+          "play the video",
+          "continue with the video"
         ]
 
         // Simple fuzzy matching by checking if the target phrase is included in the transcript text
@@ -78,7 +80,8 @@ export const Agent: React.FC<{
               event.target.playVideo();
               setTimeout(() => {
                 console.log("Slept for 1 second");
-                event.target.pauseVideo();
+                event.target.playVideo();
+                //event.target.pauseVideo();
               }, 2000);
             },
           },
@@ -99,7 +102,7 @@ export const Agent: React.FC<{
           allowFullScreen
           style={{ position: "relative", zIndex: 999 }}
         ></iframe>
-          <Transcript />
+          {/* <Transcript /> */}
         <footer className={styles.agentFooter}>
           <Latency
             started={agentState === "connected" && hasStarted}

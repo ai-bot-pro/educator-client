@@ -67,6 +67,7 @@ export const Session = React.memo(
       // by muting the users mic initially
       if (daily) {
         daily.setLocalAudio(false);
+        toggleMute()
       }
     }, [daily, startAudioOff]);
 
@@ -168,10 +169,10 @@ export const Session = React.memo(
             />,
             document.getElementById("tray")!
           )}
-        <p>When every you have a question about the video, simply unmute your mic and start speaking. Andrej will stop speaking
+        <p>When you have a question about the video, <b>unmute your mic and start speaking</b>. Andrej will stop speaking
            and will try answer your question</p>
         <br/>
-        <p>When your question is answered, say: <b>"Thanks! You can continue with the lecture"</b> and he will continue</p>
+        <p>When your question is answered, say: <b>"Thank you! You can continue with the lecture"</b> and he will continue</p>
         <div className="flex-1 flex flex-col items-center justify-center w-full">
           <Card
             fullWidthMobile={false}
@@ -182,7 +183,7 @@ export const Session = React.memo(
 
           <UserMicBubble
             openMic={openMic}
-            active={hasStarted} //Open mic: && talkState !== "assistant"}
+            active={true} //Open mic: && talkState !== "assistant"}
             muted={muted}
             handleMute={() => toggleMute()}
           />
