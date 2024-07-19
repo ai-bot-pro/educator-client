@@ -118,12 +118,12 @@ export const Session = React.memo(
     useAppMessage({
       onAppMessage: (e) => {
         // Aggregate metrics from pipecat
-        if (e.data?.type === "pipecat-metrics") {
-          e.data.metrics.ttfb.map((m: { name: string; time: number }) => {
-            stats_aggregator.addStat([m.name, "ttfb", m.time, Date.now()]);
-          });
-          return;
-        }
+        // if (e.data?.type === "pipecat-metrics") {
+        //   e.data.metrics.ttfb.map((m: { name: string; time: number }) => {
+        //     stats_aggregator.addStat([m.name, "ttfb", m.time, Date.now()]);
+        //   });
+        //   return;
+        // }
         //Open mic handler (disabled for now)
         if (!daily || !e.data?.cue) return;
 
@@ -169,13 +169,14 @@ export const Session = React.memo(
             />,
             document.getElementById("tray")!
           )}
-        <p>When you have a question about the video, <b>unmute your mic and start speaking</b>. Andrej will stop speaking
+        <p><b>Unmute your mic and start speaking to ask a question</b>. Andrej will stop speaking
            and will try answer your question</p>
         <br/>
         <p>When your question is answered, say: <b>"Thank you! You can continue with the lecture"</b> and he will continue</p>
+        <br/>
         <div className="flex-1 flex flex-col items-center justify-center w-full">
           <Card
-            fullWidthMobile={false}
+            fullWidthMobile={true}
             className=" mt-auto shadow-long"
           >
             <Agent hasStarted={hasStarted} statsAggregator={stats_aggregator} onToggleMute={toggleMute}/>
