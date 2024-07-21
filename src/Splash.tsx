@@ -60,18 +60,9 @@ const Splash: React.FC<SplashProps> = ({ handleReady }) => {
         <div className="h-[1px] bg-primary-300 w-full" />
 
         <footer className="flex flex-col lg:flex-row lg:gap-2">
-        <Button variant="light" asChild>
-            <a
-              href="https://www.daily.co/blog/the-worlds-fastest-voice-bot/"
-              className="text-indigo-600"
-            >
-              <Info className="size-6" />
-              About this demo
-            </a>
-          </Button>
           <Button variant="light" asChild>
             <a
-              href="https://github.com/CerebriumAI/examples/tree/master/18-realtime-voice-agent"
+              href="https://github.com/CerebriumAI/examples/tree/master/19-voice-rag-agent"
               className="text-indigo-600"
             >
               <Book className="size-6" />
@@ -80,7 +71,7 @@ const Splash: React.FC<SplashProps> = ({ handleReady }) => {
           </Button>
           <Button variant="light" asChild>
             <a
-              href="https://docs.cerebrium.ai/v4/examples/realtime-voice-agents"
+              href="https://www.cerebrium.ai/blog/creating-a-realtime-rag-voice-agent"
               className="text-indigo-600"
             >
               <Rocket className="size-6" />
