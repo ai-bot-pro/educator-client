@@ -33,8 +33,6 @@ export const Agent: React.FC<{
     useAppMessage({
       onAppMessage: (e) => {
         // Aggregate metrics from pipecat
-       console.log(e.data)
-
       if (e.data.user_id == "" && e.data?.text) {
         player?.pauseVideo();
       }
@@ -80,7 +78,12 @@ export const Agent: React.FC<{
           },
         });
       };
-    }, []);
+
+      // Check if player is already initialized and play the video
+      if (player) {
+        player.playVideo();
+      }
+    }, [player]);
 
     return (
       <div className={styles.agent}>

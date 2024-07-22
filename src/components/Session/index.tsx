@@ -117,14 +117,7 @@ export const Session = React.memo(
 
     useAppMessage({
       onAppMessage: (e) => {
-        // Aggregate metrics from pipecat
-        // if (e.data?.type === "pipecat-metrics") {
-        //   e.data.metrics.ttfb.map((m: { name: string; time: number }) => {
-        //     stats_aggregator.addStat([m.name, "ttfb", m.time, Date.now()]);
-        //   });
-        //   return;
-        // }
-        //Open mic handler (disabled for now)
+
         if (!daily || !e.data?.cue) return;
 
         // Determine the UI state from the cue sent by the bot
