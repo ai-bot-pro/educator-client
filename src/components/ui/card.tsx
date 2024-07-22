@@ -14,7 +14,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       className={cn(
         "rounded-3xl border border-transparent bg-origin-border borderClip bg-cardBorder",
         shadow && "shadow-long",
-        fullWidthMobile && "w-full max-w-full min-w-full md:min-w-0",
+        fullWidthMobile ? "w-full max-w-full min-w-full md:min-w-0" : "w-3/5",
         className
       )}
       {...props}
