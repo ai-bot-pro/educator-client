@@ -169,7 +169,7 @@ export const Session = React.memo(
             />,
             document.getElementById("tray")!
           )}
-        <p><b>Unmute your mic and start speaking to ask a question</b>. Andrej will stop speaking
+        <p>When the bot has connected, <b>unmute your mic and start speaking to ask a question</b>. Andrej will stop speaking
            and will try answer your question</p>
         <br/>
         <p>When your question is answered, say: <b>"Thank you! You can continue with the lecture"</b> and he will continue</p>

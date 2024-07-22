@@ -87,7 +87,7 @@ export const Agent: React.FC<{
         <iframe
           ref={iframeRef}
           id="youtube-player"
-          width="100%"
+          width={window.innerWidth <= 768 ? "100%" : "560"}
           height="315"
           src="https://www.youtube.com/embed/l8pRSuU81PU?enablejsapi=1"
           title="YouTube video player"
