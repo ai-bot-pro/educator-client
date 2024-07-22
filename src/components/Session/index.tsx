@@ -184,7 +184,7 @@ export const Session = React.memo(
 
           <UserMicBubble
             openMic={openMic}
-            active={true} //Open mic: && talkState !== "assistant"}
+            active={hasStarted} //Open mic: && talkState !== "assistant"}
             muted={muted}
             handleMute={() => toggleMute()}
           />
