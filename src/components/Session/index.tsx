@@ -176,7 +176,7 @@ export const Session = React.memo(
         <br/>
         <div className="flex-1 flex flex-col items-center justify-center w-full">
           <Card
-            fullWidthMobile={true}
+            fullWidthMobile={window.innerWidth <= 768}
             className=" mt-auto shadow-long"
           >
             <Agent hasStarted={hasStarted} statsAggregator={stats_aggregator} onToggleMute={toggleMute}/>
