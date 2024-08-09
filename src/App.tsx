@@ -35,7 +35,7 @@ const status_text = {
 
 // Server URL (ensure trailing slash)
 let serverUrl = import.meta.env.VITE_SERVER_URL;
-let serverAuth = import.meta.env.VITE_SERVER_AUTH;
+const serverAuth = import.meta.env.VITE_SERVER_AUTH;
 if (serverUrl && !serverUrl.endsWith("/")) serverUrl += "/";
 
 // Auto room creation (requires server URL)
@@ -79,7 +79,7 @@ export default function App() {
   async function start() {
     if (!daily || (!roomUrl && !autoRoomCreation)) return;
 
-    let data;
+    let res;
 
     // Request agent to start, or join room directly
     if (import.meta.env.VITE_SERVER_URL) {
@@ -87,17 +87,35 @@ export default function App() {
       setState("requesting_agent");
 
       try {
-        data = await fetch_start_agent(`${serverUrl}create_room`, serverAuth);
-        if (data && !data.error) {
-          fetch(`${serverUrl}start_bot`, {
+        res= await fetch_start_agent(`${serverUrl}create_room`, serverAuth);
+        if (res && !res.error_code) {
+          fetch(`${serverUrl}bot_join/${res.data.room.name}/DailyLangchainRAGBot`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${serverAuth}`
             },
-            body: JSON.stringify({
-              room_url: data.result.url,
-              token: data.result.token
+            body: JSON.stringify( {
+                "config": {
+                  "asr": {
+                      "tag": "whisper_groq_asr",
+                      "args": { "language": "en" }
+                  },
+                  "llm": {
+                      "model": "llama-3.1-70b-versatile",
+                      "messages": [
+                          {
+                            "role": "system",
+                            "content": ""
+                            //"content": "你是一位很有帮助中文AI助理机器人。你的目标是用简洁的方式展示你的能力,请用中文简短回答，回答限制在1-5句话内。你的输出将转换为音频，所以不要在你的答案中包含特殊字符。以创造性和有帮助的方式回应用户说的话。"
+                          }
+                      ]
+                  },
+                  "tts": {
+                      "voice": "2ee87190-8f84-4925-97da-e52547f9462c",
+                      "language":"en",
+                  }
+                }
             })
           }).catch((e) => {
             console.error(`Failed to make request to ${serverUrl}/main: ${e}`);
@@ -124,8 +142,8 @@ export default function App() {
 
     try {
       await daily.join({
-        url: data.result.url || roomUrl,
-        token: data.result.token || "",
+        url: res.data.room.url || roomUrl,
+        token: res.data.token || "",
         videoSource: false,
         startAudioOff: startAudioOff,
       });
