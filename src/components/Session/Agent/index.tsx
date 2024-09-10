@@ -36,7 +36,7 @@ export const Agent: React.FC<{
 
     useAppMessage({
       onAppMessage: (e) => {
-        // Aggregate metrics from pipecat
+        // Aggregate metrics from achatbot
         if (e.data.user_id == "" && e.data?.text) {
           player?.pauseVideo();
         }

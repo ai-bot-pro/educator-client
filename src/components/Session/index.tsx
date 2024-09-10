@@ -42,7 +42,7 @@ export const Session = React.memo(
     const [showStats, setShowStats] = useState(false);
     const modalRef = useRef<HTMLDialogElement>(null);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [talkState, setTalkState] = useState<"user" | "assistant" | "open">(
+    const [, setTalkState] = useState<"user" | "assistant" | "open">(
       "user" //"open" : "assistant"
     );
     const [muted, setMuted] = useState(startAudioOff);
@@ -68,8 +68,10 @@ export const Session = React.memo(
       // by muting the users mic initially
       if (daily) {
         daily.setLocalAudio(false);
+        //!TODO: toggle mute
         toggleMute();
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [daily, startAudioOff]);
 
     // Reset stats aggregator on mount
