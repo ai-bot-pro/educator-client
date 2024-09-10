@@ -1,4 +1,4 @@
-# Pipecat Client Web UI
+# achatbot Client Web UI
 
 Some docs regarding how all this fits together: [here](/docs/)
 
@@ -49,6 +49,10 @@ Not currently in use
 `VITE_USER_VIDEO`
 
 Not currently in use
+
+`VITE_ROOM_EXP_TIME_S`
+
+Expiration time of a daily random room
 
 
 ## What libraries does this use?

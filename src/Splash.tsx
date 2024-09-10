@@ -1,11 +1,6 @@
 import React from "react";
 import { Book, Rocket } from "lucide-react";
 
-import CerebriumLogo from "@/assets/logos/cerebrium.png";
-import DailyLogo from "@/assets/logos/daily.png";
-import DeepgramLogo from "@/assets/logos/deepgram.png";
-import L3Logo from "@/assets/logos/llama3.png";
-
 import { Button } from "./components/ui/button";
 
 type SplashProps = {
@@ -17,41 +12,43 @@ const Splash: React.FC<SplashProps> = ({ handleReady }) => {
     <main className="w-full h-full flex items-center justify-center bg-primary-200 p-4 bg-[length:auto_50%] lg:bg-auto bg-colorWash bg-no-repeat bg-right-top">
       <div className="flex flex-col gap-8 lg:gap-12 items-center max-w-full lg:max-w-3xl">
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-balance">
-          The Future of Education
+          Andrej Karpathy视频内容提问Demo
         </h1>
 
         <div className="flex flex-col gap-2">
-          <span className="text-sm text-primary-400">Brought to you by:</span>
+          <span className="text-sm text-primary-400">
+            Andrej Karpathy youtube video:
+          </span>
           <div className="flex flex-row gap-6 bg-white rounded-full py-4 px-8 items-center">
-            <a href="https://www.daily.co/" target="_blank">
-              <img src={DailyLogo} alt="Daily.co" className="max-h-[22px]" />
+            <a
+              className="lg:text-lg text-primary-600"
+              href="https://www.youtube.com/watch?v=zjkBMFhNj_g"
+              target="_blank"
+            >
+              [1hr Talk] Intro to Large Language Models
             </a>
-            <a href="https://www.cerebrium.ai/" target="_blank">
-              <img
-                src={CerebriumLogo}
-                alt="Cerebrium.ai"
-                className="max-h-[22px]"
-              />
-            </a>
-            <a href="https://deepgram.com/" target="_blank">
-              <img src={DeepgramLogo} alt="Daily.co" className="max-h-[22px]" />
-            </a>
-            <a href="https://llama.meta.com/llama3/" target="_blank">
-              <img src={L3Logo} alt="Daily.co" className="max-h-[22px]" />
+          </div>
+          <div className="flex flex-row gap-6 bg-white rounded-full py-4 px-8 items-center">
+            <a
+              className="lg:text-lg text-primary-600"
+              href="https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ"
+              target="_blank"
+            >
+              Neural Networks: Zero to Hero
             </a>
           </div>
         </div>
 
-        <div className="max-w-full lg:max-w-2xl flex flex-col gap-6">
-          <p className="lg:text-lg text-primary-600">
-          Educational resources are very digitized today, meaning anyone, anywhere can watch educational videos
-          from some of the most renowned institutions and individuals in the world all from their laptop. However,
-          one part of the process that has been lacking has been the ability to have your own personal tutor…until now.
-          </p>
-          <p className="lg:text-lg text-primary-600">
-            This bot was built using Cerebrium, a serverless infrastructure platform that makes it easy to
-            build and deploy AI applications
-          </p>
+        <div className="max-w-full lg:max-w-2xl flex flex-col gap-6 lg:text-lg text-primary-600">
+          Educational resources are very digitized today, meaning anyone,
+          anywhere can watch educational videos from some of the most renowned
+          institutions and individuals in the world all from their laptop.
+          However, one part of the process that has been lacking has been the
+          ability to have your own personal tutor…until now.
+          <br />
+          <br />
+          如今的教育资源已经高度数字化，这意味着任何人、任何地方都可以通过笔记本电脑观看来自世界上一些最著名的机构和个人的教育视频。然而，这一过程中一直缺乏的一部分是拥有自己的私人导师的能力……
+          这个demo功能 是对 安德烈·卡帕蒂(Andrej Karpathy) 视频回放内容提问。
         </div>
 
         {/* TODO: Uncomment this line to implement yourself */}
@@ -62,20 +59,20 @@ const Splash: React.FC<SplashProps> = ({ handleReady }) => {
         <footer className="flex flex-col lg:flex-row lg:gap-2">
           <Button variant="light" asChild>
             <a
-              href="https://github.com/CerebriumAI/examples/tree/master/19-voice-rag-agent"
+              href="https://github.com/ai-bot-pro/achatbot/blob/main/src/cmd/bots/rag/daily_langchain_rag_bot.py"
               className="text-indigo-600"
             >
               <Book className="size-6" />
-              View source code
+              View source code (源码)
             </a>
           </Button>
           <Button variant="light" asChild>
             <a
-              href="https://www.cerebrium.ai/blog/creating-a-realtime-rag-voice-agent"
+              href="https://github.com/ai-bot-pro/achatbot/tree/main/deploy"
               className="text-indigo-600"
             >
               <Rocket className="size-6" />
-              Deploy your own
+              Deploy your own (部署)
             </a>
           </Button>
         </footer>

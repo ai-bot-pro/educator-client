@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import { DailyProvider } from "@daily-co/daily-react";
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
 
 import Header from "./components/ui/header.tsx";
 import { TooltipProvider } from "./components/ui/tooltip.tsx";
@@ -11,14 +11,14 @@ import Splash from "./Splash.tsx";
 import "./global.css"; // Note: Core app layout can be found here
 
 // Show marketing splash page
-const showSplashPage = import.meta.env.VITE_SHOW_SPLASH ? true : false;
+//const showSplashPage = import.meta.env.VITE_SHOW_SPLASH ? true : false;
 
 // Show warning on Firefox
 // @ts-expect-error - Firefox is not supported
 const isFirefox: boolean = typeof InstallTrigger !== "undefined";
 
 export const Layout = () => {
-  const [showSplash, setShowSplash] = useState<boolean>(showSplashPage);
+  const [showSplash, setShowSplash] = useState<boolean>(true);
 
   if (showSplash) {
     return <Splash handleReady={() => setShowSplash(false)} />;

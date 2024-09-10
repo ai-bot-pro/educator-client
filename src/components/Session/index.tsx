@@ -7,7 +7,7 @@ import {
   useDailyEvent,
   useMeetingState,
 } from "@daily-co/daily-react";
-import { LineChart, LogOut, Settings, Github } from "lucide-react";
+import { Github, LineChart, LogOut, Settings } from "lucide-react";
 
 import StatsAggregator from "../../utils/stats_aggregator";
 import { DeviceSelect } from "../Setup";
@@ -16,6 +16,7 @@ import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -40,7 +41,7 @@ export const Session = React.memo(
     const [showDevices, setShowDevices] = useState(false);
     const [showStats, setShowStats] = useState(false);
     const modalRef = useRef<HTMLDialogElement>(null);
-    //@ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [talkState, setTalkState] = useState<"user" | "assistant" | "open">(
       "user" //"open" : "assistant"
     );
@@ -67,7 +68,7 @@ export const Session = React.memo(
       // by muting the users mic initially
       if (daily) {
         daily.setLocalAudio(false);
-        toggleMute()
+        toggleMute();
       }
     }, [daily, startAudioOff]);
 
@@ -117,7 +118,6 @@ export const Session = React.memo(
 
     useAppMessage({
       onAppMessage: (e) => {
-
         if (!daily || !e.data?.cue) return;
 
         // Determine the UI state from the cue sent by the bot
@@ -162,17 +162,39 @@ export const Session = React.memo(
             />,
             document.getElementById("tray")!
           )}
-        <p>When the bot has connected, <b>unmute your mic and start speaking to ask a question</b>. Andrej will stop speaking
-           and will try answer your question</p>
-        <br/>
-        <p>When your question is answered, say: <b>"Thank you! You can continue with the lecture"</b> and he will continue</p>
-        <br/>
+        <Card shadow className="animate-appear max-w-lg">
+          <CardHeader>
+            <CardTitle>
+              安德烈·卡帕蒂(Andrej Karpathy) 学习视频回放内容提问Demo
+            </CardTitle>
+            <CardDescription>
+              <p>
+                机器人连接后(Connected), <br />
+                <b>暂停播放, 取消麦克风静音并开始说话向安德烈·卡帕蒂提问</b>.
+                比如：
+                <br />
+                什么是自然语言处理
+                <br />
+                什么是语言模型
+                <br />
+                什么是神经元
+                <br />
+                怎么重构GPT2
+                <br />
+              </p>
+            </CardDescription>
+          </CardHeader>
+        </Card>
         <div className="flex-1 flex flex-col items-center justify-center w-full">
           <Card
             fullWidthMobile={window.innerWidth <= 768}
             className=" mt-auto shadow-long"
           >
-            <Agent hasStarted={hasStarted} statsAggregator={stats_aggregator} onToggleMute={toggleMute}/>
+            <Agent
+              hasStarted={hasStarted}
+              statsAggregator={stats_aggregator}
+              onToggleMute={toggleMute}
+            />
           </Card>
 
           <UserMicBubble
@@ -186,15 +208,20 @@ export const Session = React.memo(
 
         <footer className="w-full flex flex-row mt-auto self-end md:w-auto">
           <div className="flex flex-row justify-between gap-3 w-full md:w-auto">
-          <Tooltip>
+            <Tooltip>
               <TooltipContent>Go to GitHub repository</TooltipContent>
               <TooltipTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => window.open('https://github.com/CerebriumAI/examples/tree/master/18-realtime-voice-agent', '_blank')}
+                  onClick={() =>
+                    window.open(
+                      "https://github.com/ai-bot-pro/achatbot",
+                      "_blank"
+                    )
+                  }
                 >
-                  <Github /> 
+                  <Github />
                 </Button>
               </TooltipTrigger>
             </Tooltip>

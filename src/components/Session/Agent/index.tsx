@@ -1,7 +1,12 @@
-import React, { memo, useEffect, useState, useRef } from "react";
-import { useActiveSpeakerId, useParticipantIds, useAppMessage } from "@daily-co/daily-react";
+import React, { memo, useEffect, useRef, useState } from "react";
+import {
+  useActiveSpeakerId,
+  useAppMessage,
+  useParticipantIds,
+} from "@daily-co/daily-react";
 
 import Latency from "@/components/Latency";
+
 import styles from "./styles.module.css";
 
 type AgentState = "connecting" | "loading" | "connected";
@@ -9,7 +14,7 @@ type AgentState = "connecting" | "loading" | "connected";
 export const Agent: React.FC<{
   hasStarted: boolean;
   statsAggregator: StatsAggregator;
-  onToggleMute: () => void; 
+  onToggleMute: () => void;
 }> = memo(
   ({ hasStarted = false, statsAggregator, onToggleMute }) => {
     const participantIds = useParticipantIds({ filter: "remote" });
@@ -17,7 +22,6 @@ export const Agent: React.FC<{
     const [agentState, setAgentState] = useState<AgentState>("connecting");
     const [player, setPlayer] = useState<any>(null);
     const iframeRef = useRef<HTMLIFrameElement>(null);
-
 
     useEffect(() => {
       if (participantIds.length > 0) {
@@ -33,30 +37,34 @@ export const Agent: React.FC<{
     useAppMessage({
       onAppMessage: (e) => {
         // Aggregate metrics from pipecat
-      if (e.data.user_id == "" && e.data?.text) {
-        player?.pauseVideo();
-      }
-
-      if (e.data?.speech_final && e.data.user_id == "" && e.data?.text) {
-        const transcriptText = e.data.text.toLowerCase();
-        const targetPhrases = [
-          "you can continue with the lecture",
-          "continue with the lecture",
-          "you can continue with lecture",
-          "continue with lecture",
-          "play the video",
-          "continue with the video"
-        ]
-
-        // Simple fuzzy matching by checking if the target phrase is included in the transcript text
-        const matchFound = targetPhrases.some(phrase => transcriptText.includes(phrase));
-          if (matchFound) {
-          console.log("Fuzzy match found for the phrase: 'You can continue with the lecture'");
-          player?.playVideo();
-          onToggleMute()
+        if (e.data.user_id == "" && e.data?.text) {
+          player?.pauseVideo();
         }
-      }
-      }
+
+        if (e.data?.speech_final && e.data.user_id == "" && e.data?.text) {
+          const transcriptText = e.data.text.toLowerCase();
+          const targetPhrases = [
+            "you can continue with the lecture",
+            "continue with the lecture",
+            "you can continue with lecture",
+            "continue with lecture",
+            "play the video",
+            "continue with the video",
+          ];
+
+          // Simple fuzzy matching by checking if the target phrase is included in the transcript text
+          const matchFound = targetPhrases.some((phrase) =>
+            transcriptText.includes(phrase)
+          );
+          if (matchFound) {
+            console.log(
+              "Fuzzy match found for the phrase: 'You can continue with the lecture'"
+            );
+            player?.playVideo();
+            onToggleMute();
+          }
+        }
+      },
     });
 
     useEffect(() => {
@@ -98,7 +106,7 @@ export const Agent: React.FC<{
           allowFullScreen
           style={{ position: "relative", zIndex: 999 }}
         ></iframe>
-          {/* <Transcript /> */}
+        {/* <Transcript /> */}
         <footer className={styles.agentFooter}>
           <Latency
             started={agentState === "connected" && hasStarted}
