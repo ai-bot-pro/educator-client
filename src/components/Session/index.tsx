@@ -181,7 +181,7 @@ export const Session = React.memo(
                 <br />
                 什么是神经元
                 <br />
-                怎么重构GPT2
+                如何重新构建一个GPT2模型
                 <br />
               </p>
             </CardDescription>
